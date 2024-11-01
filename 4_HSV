@@ -1,25 +1,27 @@
 # H - hue (цветовой тон, цвет)
-# S - saturation (нассыщенность)
+# S - saturation (насыщенность)
 # V - value (яркость)
 # l - low (нижняя граница)
 # h - high (верхняя граница)
 # lh - нижняя граница цвета
+
 import numpy as np
 import cv2
 
 cv2.namedWindow("mask")
 
-
+lh, ls, lv = (1, 154, 0)
+hh, hs, hv = (15, 255, 255)
 def nothing(x):
     pass
 
 
-cv2.createTrackbar("lh", "mask", 0, 255, nothing)
-cv2.createTrackbar("ls", "mask", 0, 255, nothing)
-cv2.createTrackbar("lv", "mask", 0, 255, nothing)
-cv2.createTrackbar("hh", "mask", 255, 255, nothing)
-cv2.createTrackbar("hs", "mask", 255, 255, nothing)
-cv2.createTrackbar("hv", "mask", 255, 255, nothing)
+cv2.createTrackbar("lh", "mask", lh, 255, nothing)
+cv2.createTrackbar("ls", "mask", ls, 255, nothing)
+cv2.createTrackbar("lv", "mask", lv, 255, nothing)
+cv2.createTrackbar("hh", "mask", hh, 255, nothing)
+cv2.createTrackbar("hs", "mask", hs, 255, nothing)
+cv2.createTrackbar("hv", "mask", hv, 255, nothing)
 
 cam = cv2.VideoCapture(0)
 
@@ -41,6 +43,8 @@ while (True):
     hh = cv2.getTrackbarPos("hh", "mask")
     hs = cv2.getTrackbarPos("hs", "mask")
     hv = cv2.getTrackbarPos("hv", "mask")
+
+    print((lh, ls, lv), (hh, hs, hv))
 
     mask = cv2.inRange(hsv, (lh, ls, lv), (hh, hs, hv))
 
@@ -69,7 +73,7 @@ while (True):
 
         # print(a)
 
-        if a >= 500:
+        if (a >= 500):
             filtered[np.where(labels == i)] = 255
             # print(a)
 
